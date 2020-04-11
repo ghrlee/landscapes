@@ -1,0 +1,155 @@
+<canvas id = "canvas" width="1960" height="900" style="border:1px solid #000000;"></canvas>
+
+<script type="text/javascript" src="./lib/simplex-noise.js"></script>
+
+<script type="text/javascript">
+
+  // ================================== //
+  // canvas
+  // ================================== //
+
+  var canvas = document.getElementById("canvas");
+  var CANVAS_HEIGHT = 900;
+  var CANVAS_WIDTH = 1960;
+  var LOWER_LEFT = { x: CANVAS_WIDTH, y: CANVAS_HEIGHT };
+  var LOWER_RIGHT = { x: 0, y: CANVAS_HEIGHT };
+  var UPPER_LEFT = { x: CANVAS_WIDTH, y: 0 };
+  var UPPER_RIGHT = { x: 0, y: 0 };
+
+  var ctx = canvas.getContext("2d");
+  ctx.webkitImageSmoothingEnabled = true;
+  ctx.translate(0.5, 0.5);
+  ctx.imageSmoothingEnabled = true;
+  ctx.strokeStyle = "#000000";
+
+  // ================================== //
+  // noise //
+  // ================================== //
+
+  function hillNoise(x, z, type) {
+    return type.noise2D(z, x);
+  }
+
+  function make1DNoise(params) {
+    var newNoise = [];
+    var simplex = new SimplexNoise();
+
+    
+    for(var i=0; i<CANVAS_WIDTH; i++) {
+      newNoise.push({ 
+        x: i, 
+        y: params.axis + params.amplitude * hillNoise(params.scale * i, params.zaxis, simplex) 
+      });  
+    }
+    
+    newNoise.push(LOWER_LEFT); 
+    newNoise.push(LOWER_RIGHT);
+    return newNoise;
+  }
+
+  function fillPath(params) {
+    points = make1DNoise(params)
+    ctx.fillStyle = toHslString(params.fillColor);
+
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+
+    for(var i = 1; i < points.length; i++) {
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+
+    ctx.lineTo(points[0].x, points[0].y);
+    ctx.fill();
+    // here the line casts a "shadow" of dots above it, unless it's the first hill
+    // ctx.stroke();
+    // ctx.shadowOffsetY = 20;
+    fillShadow(params.fillColor);
+    // console.log(ctx)
+  }
+
+  function fillShadow(color) {
+    // console.log(shadowColor)
+    shadowColor = {
+      h: color.h,
+      s: color.s,
+      l: color.l - .2
+    }
+    console.log(shadowColor)
+    // shawdowColor = hillColor();
+    ctx.shadowOffsetX = 10;
+    ctx.shadowColor = toHslString(shadowColor);
+    ctx.shadowBlur = 30;
+  }
+
+  function drawAllHills(params) {
+    var hillsParams = params;
+
+    for(var i = 1; i <= params.times; i++) {
+      fillPath(params)
+      hillsParams.axis = params.axis + 100;
+      hillsParams.zaxis = params.zaxis + .02
+      hillsParams.fillColor.l = params.fillColor.l + 0.06
+    }
+  }
+
+//   function makeClouds(threshold, offset, variance) {
+//     ctx.globalAlpha = 0.4;
+//     ctx.beginPath();
+//     for(var i=0; i<CANVAS_WIDTH; i++) {
+//         for(var j=0; j<CANVAS_HEIGHT; j++) {
+//             var noiseValue = simplex.noise2D(i*0.001+offset, 
+//                                              j*0.01+offset);
+//             if(noiseValue>params.threshold
+//                          +Math.random()*params.variance) {
+//                 drawPixel({x:i, y:j}, colors.cloudColor);
+//             }
+//         }
+//     }
+//     ctx.globalAlpha = 1.0;
+// }
+
+  // ================================== //
+  // color //
+  // ================================== //
+
+  function randomColor() {
+    var randH = Math.random();
+    var randS = Math.random() * 0.1 + 0.5;
+    var randL = Math.random() * 0.1 + 0.4; 
+    return { h: randH, s: randS, l: randL };
+  }
+
+  function toHslString(color) {
+    return "hsl(" + (color.h % 1.0) * 360 + ", " + (color.s % 1.0) * 100 + "%, " + (color.l % 1.0) * 100 + "%)";
+  }
+
+  // ================================== //
+  // params //
+  // ================================== //
+  function hillColor() {
+    var baseColor = randomColor();
+    return  {
+      h: baseColor.h + Math.random() * 0.2 - 0.1, 
+      s: baseColor.s + Math.random() * 0.2 - 0.1,
+      l: baseColor.l + Math.random() * 0.1 + 0.15
+    }
+  } 
+
+
+  var hillParams = {
+    axis: 400,
+    amplitude: 60,
+    scale: 0.002,
+    zaxis: 0, 
+    fillColor: hillColor(),
+    times: 4
+  }
+
+  drawAllHills(hillParams)
+
+  // new ideas: randomly offset shadowoffset x
+
+  // during day scenes have hills blend into sky color, darker(lower) to lighter(higher)
+  // and opposit for night
+  // 
+</script>
