@@ -68,14 +68,12 @@
   }
 
   function fillShadow(color) {
-    // console.log(shadowColor)
     shadowColor = {
       h: color.h,
       s: color.s,
       l: color.l - .2
     }
-    console.log(shadowColor)
-    // shawdowColor = hillColor();
+
     ctx.shadowOffsetX = 10;
     ctx.shadowColor = toHslString(shadowColor);
     ctx.shadowBlur = 30;
@@ -83,12 +81,14 @@
 
   function drawAllHills(params) {
     var hillsParams = params;
+    var lightestColor = hillsParams.fillColor + (1 * hillsParams.times);
+    console.log(lightestColor);
 
     for(var i = 1; i <= params.times; i++) {
       fillPath(params)
       hillsParams.axis = params.axis + 100;
-      hillsParams.zaxis = params.zaxis + .02
-      hillsParams.fillColor.l = params.fillColor.l + 0.06
+      hillsParams.zaxis = params.zaxis - 1;
+      hillsParams.fillColor.l = params.fillColor.l - 0.06;
     }
   }
 
@@ -130,8 +130,8 @@
     var baseColor = randomColor();
     return  {
       h: baseColor.h + Math.random() * 0.2 - 0.1, 
-      s: baseColor.s + Math.random() * 0.2 - 0.1,
-      l: baseColor.l + Math.random() * 0.1 + 0.15
+      s: baseColor.s + Math.random() * 0.2 - 0.18,
+      l: baseColor.l + Math.random() * 0.1 + 0.2
     }
   } 
 
@@ -140,7 +140,7 @@
     axis: 400,
     amplitude: 60,
     scale: 0.002,
-    zaxis: 0, 
+    zaxis: 5, 
     fillColor: hillColor(),
     times: 4
   }
