@@ -1,4 +1,6 @@
 <canvas id = "canvas" width="1960" height="900" style="border:1px solid #000000;"></canvas>
+<link rel="stylesheet" type="text/css" href="./styles/style.css">
+
 
 <script type="text/javascript" src="./lib/simplex-noise.js"></script>
 <script type="text/javascript" src="./scripts/color.js"></script>
@@ -116,13 +118,13 @@
     times: 4
   }
 
-  function drawSky() {
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(0,0,canvas.width, canvas.height);
-  }
+  // function drawSky() {
+  //   ctx.fillStyle = 'blue';
+  //   ctx.fillRect(0,0,canvas.width, canvas.height);
+  // }
 
 
-  drawSky()
+  // drawSky()
   drawAllHills(hillParams)
 
 
