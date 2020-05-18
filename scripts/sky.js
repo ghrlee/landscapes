@@ -23,3 +23,24 @@
 // 	  ctx.fillRect(randomX, randomY, randomSize, randomSize);
 //   }
 // }
+
+  // function drawSky() {
+  //   ctx.fillStyle = 'blue';
+  //   ctx.fillRect(0,0,canvas.width, canvas.height);
+  // }
+
+  //   function makeClouds(threshold, offset, variance) {
+//     ctx.globalAlpha = 0.4;
+//     ctx.beginPath();
+//     for(var i=0; i<CANVAS_WIDTH; i++) {
+//         for(var j=0; j<CANVAS_HEIGHT; j++) {
+//             var noiseValue = simplex.noise2D(i*0.001+offset, 
+//                                              j*0.01+offset);
+//             if(noiseValue>params.threshold
+//                          +Math.random()*params.variance) {
+//                 drawPixel({x:i, y:j}, colors.cloudColor);
+//             }
+//         }
+//     }
+//     ctx.globalAlpha = 1.0;
+// }

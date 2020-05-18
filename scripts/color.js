@@ -2,49 +2,49 @@
 // color //
 // ================================== //
 
-function randomColorValues() {
-  var randH = Math.random();
-  var randS = Math.random() * 0.1 + 0.5;
-  var randL = Math.random() * 0.1 + 0.4; 
-  return { h: randH, s: randS, l: randL };
-}
+// function randomColorValues() {
+//   var randH = Math.random();
+//   var randS = Math.random() * 0.1 + 0.5;
+//   var randL = Math.random() * 0.1 + 0.4; 
+//   return { h: randH, s: randS, l: randL };
+// }
 
-function getHue(color) {
-  return color.h % 1.0;
-}
+// function getHue(color) {
+//   return color.h % 1.0;
+// }
 
-function primaryColor(color) {
-  return "hsl(" + getHue(color) * 360 + ", " + (color.s % 1.0) * 100 + "%, " + (color.l % 1.0) * 100 + "%)";
-}
+// function primaryColor(color) {
+//   return "hsl(" + getHue(color) * 360 + ", " + (color.s % 1.0) * 100 + "%, " + (color.l % 1.0) * 100 + "%)";
+// }
 
-function secondaryColor(color) {
-  return "hsl(" + (getHue(color) * 360 + 210)+ ", " + (color.s % 1.0) * 100 + "%, " + (color.l % 1.0) * 100 + "%)";
-}
+// function secondaryColor(color) {
+//   return "hsl(" + (getHue(color) * 360 + 210)+ ", " + (color.s % 1.0) * 100 + "%, " + (color.l % 1.0) * 100 + "%)";
+// }
 
-function hillColor() {
-  // console.log(randomColor)
-  var baseColor = randomColorValues();
-  console.log(baseColor);
-  return  {
-    h: baseColor.h + Math.random() * 0.2 - 0.2, 
-    s: baseColor.s + Math.random() * 0.2 - 0.20,
-    l: baseColor.l + Math.random() * 0.1 + 0.2
-  }
-}
+// function hillColor() {
+//   // console.log(randomColor)
+//   var baseColor = randomColorValues();
+//   console.log(baseColor);
+//   return  {
+//     h: baseColor.h + Math.random() * 0.2 - 0.2, 
+//     s: baseColor.s + Math.random() * 0.2 - 0.20,
+//     l: baseColor.l + Math.random() * 0.1 + 0.2
+//   }
+// }
 
-function skyColor() {
+// function skyColor() {
   
-}
+// }
 
 function hillShadow(color) {
-  shadowColor = {
-    h: color.h,
-    s: color.s,
-    l: color.l - .3
-  }
+  // shadowColor = {
+  //   h: color.h,
+  //   s: color.s,
+  //   l: color.l - .3
+  // }
 
   ctx.shadowOffsetX = 10;
-  ctx.shadowColor = primaryColor(shadowColor);
+  ctx.shadowColor = color;
   ctx.shadowBlur = 30;
 }
 
@@ -73,49 +73,24 @@ function triadicPositions(startingPosition) {
 }
 
 
-function generateHslaColors (saturation, lightness, alpha) {
-  let colors = []
+function generateHslaPoints () {
 
   let startingPosition = Math.floor(Math.random() * 360);
   let positionsArray = [complementaryPositions, analagousPositions, splitPositions, triadicPositions];
   let positions = positionsArray[Math.floor(Math.random() * positionsArray.length)](startingPosition);
 
-  for (let i = 0; i < positions.length; i++) {
-    let hue = positions[i];
-    colors.push(`hsla(${hue},${saturation}%,${lightness}%,${alpha})`)
-  }
-  return colors
+  return positions
 }
 
-function colorScheme() {
-  var primaryColorValues = randomColorValues();
-  var colorScheme = { 
-    primary: {
-      color: {},
-      shadow: {}
-    }
+function colorPalette(saturation, lightness, alpha) {
+  var scheme = [];
+  var values = generateHslaPoints();
+
+  for (let i = 0; i < values.length; i++) {
+    let hue = values[i];
+    let fullColor = `hsla(${hue},${saturation}%,${lightness}%,${alpha})`
+    let shadowColor = `hsla(${hue},${saturation}%,${lightness - 15}%,${alpha})`
+    scheme.push({ color: fullColor, shadow: shadowColor })
   }
-
-  return colorScheme;
+  return scheme;
 }
-
-// choose harmony
-// complementary (0 to 180)
-// analagous (-20, + 20)
-// triadic (+90 -90)
-
-// getting hue for sky color based on complimentary/tertiary color for hillColor
-
-// var colorScheme = {
-//   mainColor: { 
-//     values: thing,
-//     string: "string",
-//     darkerMain: values
-//   },
-//   secondaryColor: {
-//     values: thing,
-//     string: "string",
-//     shadowValue: value,
-//   },
-//   tertiarty
-// }

@@ -52,9 +52,12 @@
   }
 
   function fillPath(params) {
-    points = make1DNoise(params)
-    ctx.fillStyle = primaryColor(params.fillColor);
+    // draw line
+    // draw color
+    // draw shadow
 
+    points = make1DNoise(params)
+    ctx.fillStyle = params.fillColor;
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);
 
@@ -65,75 +68,54 @@
     ctx.lineTo(points[0].x, points[0].y);
     ctx.fill();
     // here the line casts a "shadow" of dots above it, unless it's the first hill
-    // ctx.stroke();
+    ctx.stroke();
     // ctx.shadowOffsetY = 20;
-    hillShadow(params.fillColor);
+    hillShadow("hsla(35,45%,30%,1)");
     // console.log(ctx)
   }
 
   function drawAllHills(params) {
     var hillsParams = params;
-    var lightestColor = hillsParams.fillColor.l + (1.2 * hillsParams.times);
-
+    var lightestColor = hillsParams.fillColor + (1.2 * hillsParams.times);
     for(var i = 1; i <= params.times; i++) {
       fillPath(params)
       hillsParams.axis = params.axis + 100;
       hillsParams.zaxis = params.zaxis - 1;
-      hillsParams.fillColor.l = params.fillColor.l - 0.075;
+      hillsParams.fillColor = params.fillColor;
     }
   }
-
-//   function makeClouds(threshold, offset, variance) {
-//     ctx.globalAlpha = 0.4;
-//     ctx.beginPath();
-//     for(var i=0; i<CANVAS_WIDTH; i++) {
-//         for(var j=0; j<CANVAS_HEIGHT; j++) {
-//             var noiseValue = simplex.noise2D(i*0.001+offset, 
-//                                              j*0.01+offset);
-//             if(noiseValue>params.threshold
-//                          +Math.random()*params.variance) {
-//                 drawPixel({x:i, y:j}, colors.cloudColor);
-//             }
-//         }
-//     }
-//     ctx.globalAlpha = 1.0;
-// }
-
-  // ================================== //
-  // color //
-  // ================================== //
 
 
   // ================================== //
   // params //
   // ================================== //
 
+
+
+  // var skyParams = { fillColor: colorPalette['primaryColor']}
+
+
+
+
+  var colorPalette = colorPalette(35, 35, 1);
+  console.log(colorPalette)
+  var hillColor = colorPalette[1].color;
+  // drawSky()
+
   var hillParams = {
-    axis: 400,
+    axis: 700,
     amplitude: 60,
     scale: 0.002,
     zaxis: 5, 
-    fillColor: hillColor(),
-    times: 4
+    fillColor: hillColor,
+    times: 2
   }
 
-  // function drawSky() {
-  //   ctx.fillStyle = 'blue';
-  //   ctx.fillRect(0,0,canvas.width, canvas.height);
-  // }
-
-
-  // drawSky()
   drawAllHills(hillParams)
+  // fillPath(hillParams);
 
-  generateHslaColors(45, 45, 1)
+  // generateHslaColors(45, 45, 1)
 
-
-  // new ideas: randomly offset shadowoffset x
-
-  // during day scenes have hills blend into sky color, darker(lower) to lighter(higher)
-  // and opposit for night
-  // 
 
   // weekend todos 
   // refactor colors still to be just a single call
