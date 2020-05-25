@@ -37,7 +37,6 @@
   function make1DNoise(params) {
     var newNoise = [];
     var simplex = new SimplexNoise();
-
     
     for(var i=0; i<CANVAS_WIDTH; i++) {
       newNoise.push({ 
@@ -57,7 +56,8 @@
     // draw shadow
 
     points = make1DNoise(params)
-    ctx.fillStyle = params.fillColor;
+    ctx.fillStyle = params.fillColor.color;
+    let hillShadowValue = params.fillColor.shadow;
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);
 
@@ -68,15 +68,14 @@
     ctx.lineTo(points[0].x, points[0].y);
     ctx.fill();
     // here the line casts a "shadow" of dots above it, unless it's the first hill
-    ctx.stroke();
+    // ctx.stroke();
     // ctx.shadowOffsetY = 20;
-    hillShadow("hsla(35,45%,30%,1)");
-    // console.log(ctx)
+    hillShadow(hillShadowValue);
   }
 
   function drawAllHills(params) {
     var hillsParams = params;
-    var lightestColor = hillsParams.fillColor + (1.2 * hillsParams.times);
+
     for(var i = 1; i <= params.times; i++) {
       fillPath(params)
       hillsParams.axis = params.axis + 100;
@@ -90,16 +89,9 @@
   // params //
   // ================================== //
 
-
-
-  // var skyParams = { fillColor: colorPalette['primaryColor']}
-
-
-
-
   var colorPalette = colorPalette(35, 35, 1);
   console.log(colorPalette)
-  var hillColor = colorPalette[1].color;
+  var hillColor = colorPalette[1];
   // drawSky()
 
   var hillParams = {
@@ -112,15 +104,6 @@
   }
 
   drawAllHills(hillParams)
-  // fillPath(hillParams);
 
-  // generateHslaColors(45, 45, 1)
-
-
-  // weekend todos 
-  // refactor colors still to be just a single call
-
-  // factor in day and night
-  // use original render method to draw day
 </script>
 
