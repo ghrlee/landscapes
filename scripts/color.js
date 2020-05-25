@@ -39,15 +39,20 @@ function generateHslaPoints () {
   return positions
 }
 
+function toHslaString(values) {
+  return `hsla(${values.hue},${values.saturation}%,${values.lightness}%,${values.alpha})`
+}
+
 function colorPalette(saturation, lightness, alpha) {
   var scheme = [];
-  var values = generateHslaPoints();
+  var points = generateHslaPoints();
 
-  for (let i = 0; i < values.length; i++) {
-    let hue = values[i];
-    let fullColor = `hsla(${hue},${saturation}%,${lightness}%,${alpha})`
-    let shadowColor = `hsla(${hue},${saturation}%,${lightness - 15}%,${alpha})`
-    scheme.push({ color: fullColor, shadow: shadowColor })
+  for (let i = 0; i < points.length; i++) {
+    let hue = points[i];
+    let fullColor = toHslaString({hue: hue, saturation: saturation, lightness: lightness, alpha: alpha})
+    let shadowColor = toHslaString({hue: hue, saturation: saturation, lightness: lightness - 15, alpha: alpha})
+    let individualValues = { hue: hue, saturation: saturation, lightness: lightness, alpha: alpha } ;
+    scheme.push({ color: fullColor, shadow: shadowColor , values: individualValues});
   }
   return scheme;
 }

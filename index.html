@@ -54,8 +54,8 @@
     // draw line
     // draw color
     // draw shadow
-
     points = make1DNoise(params)
+
     ctx.fillStyle = params.fillColor.color;
     let hillShadowValue = params.fillColor.shadow;
     ctx.beginPath();
@@ -80,7 +80,9 @@
       fillPath(params)
       hillsParams.axis = params.axis + 100;
       hillsParams.zaxis = params.zaxis - 1;
-      hillsParams.fillColor = params.fillColor;
+
+      hillsParams.fillColor.values.lightness = params.fillColor.values.lightness + 7;
+      hillsParams.fillColor.color = toHslaString(hillsParams.fillColor.values)
     }
   }
 
@@ -89,8 +91,7 @@
   // params //
   // ================================== //
 
-  var colorPalette = colorPalette(35, 35, 1);
-  console.log(colorPalette)
+  var colorPalette = colorPalette(35, 30, 1);
   var hillColor = colorPalette[1];
   // drawSky()
 
