@@ -4,6 +4,8 @@
 
 <script type="text/javascript" src="./lib/simplex-noise.js"></script>
 <script type="text/javascript" src="./scripts/color.js"></script>
+<script type="text/javascript" src="./scripts/sky.js"></script>
+
 
 <script type="text/javascript">
 
@@ -93,7 +95,7 @@
 
   var colorPalette = colorPalette(35, 30, 1);
   var hillColor = colorPalette[1];
-  // drawSky()
+  var skyColor = colorPalette[0]
 
   var hillParams = {
     axis: 700,
@@ -104,6 +106,7 @@
     times: 2
   }
 
+  drawSky(skyColor)
   drawAllHills(hillParams)
 
 </script>

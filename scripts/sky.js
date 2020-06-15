@@ -44,3 +44,14 @@
 //     }
 //     ctx.globalAlpha = 1.0;
 // }
+
+function drawSky(skyColor) {
+  console.log(skyColor)
+  hue = skyColor.color
+  shadow = skyColor.shadow
+  var my_gradient = ctx.createLinearGradient(0, 0, 0, 1600);
+  my_gradient.addColorStop(0, "black");
+  my_gradient.addColorStop(1, hue);
+  ctx.fillStyle = my_gradient;
+  ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+}
