@@ -98,16 +98,20 @@
   var skyColor = colorPalette[0]
 
   var hillParams = {
-    axis: 700,
+    axis: 600,
     amplitude: 60,
     scale: 0.002,
     zaxis: 5, 
     fillColor: hillColor,
-    times: 2
+    times: 3
   }
 
   drawSky(skyColor)
+  drawing();
+
+  // drawBrightStar()
   drawAllHills(hillParams)
+  // drawing( );
 
 </script>
 
