@@ -94,7 +94,8 @@ function drawing() {
       ctx.shadowColor = "white";
 	  }
     ctx.fillStyle = "hsla("+randomHue+", 30%, 80%, ."+randomOpacityOne+randomOpacityTwo+")";
-	  ctx.fillRect(randomX, randomY, randomSize, randomSize);
+    ctx.fillRect(randomX, randomY, randomSize, randomSize);
+    ctx.shadowBlur = 0;
 	}
   
 }
